@@ -82,10 +82,10 @@ async def ryoiki(ctx) :
 @bot.command(name='만해')
 async def itkaku(ctx) :
     img1_filepath = './image/itkaku/itkaku.png'
-    img2_filepath = './image/itkaku/itkaku_bankai.png'
+    img2_filepath = './image/itkaku/itkaku_bankai.jpg'
 
     img1_file = discord.File(img1_filepath, filename="itkaku_normal.png")
-    img2_file = discord.File(img2_filepath, filename="itkaku_bankai.png")
+    img2_file = discord.File(img2_filepath, filename="itkaku_bankai.jpg")
 
     embed_1 = discord.Embed(title="마다라메 잇카쿠", description="", color=0x00BFFF)
     embed_1.set_thumbnail(url="attachment://itkaku_normal.png")
@@ -95,7 +95,7 @@ async def itkaku(ctx) :
     embed_1.add_field(value="그리고 아무한테도 말하지 마라!", name="", inline=False)
     
     embed_2 = discord.Embed(title="마다라메 잇카쿠", description="", color=0x00BFFF)
-    embed_2.set_thumbnail(url="attachment://itkaku_bankai.png")
+    embed_2.set_image(url="attachment://itkaku_bankai.jpg")
     embed_2.add_field(name="만해!! [卍解]", value="", inline=False)
 
     await ctx.send(embed=embed_1, file=img1_file)
@@ -113,5 +113,7 @@ async def badapple(ctx) :
         await asyncio.sleep(0.1)
         await msg.delete()
         msg = await ctx.send(badapple_scene)
+
+
 
 bot.run(TOKEN)
