@@ -31,6 +31,7 @@ async def on_message(message):
             # 각 첨부 파일의 MIME 타입을 확인하여 이미지인지 판단
             if file_extension == 'webp' :
                 # 여기에서 이미지에 대한 원하는 동작을 수행
+                converting = await message.reply("이미지 변환 중...")
                 responese = requests.get(file_url)
                 img = Image.open(BytesIO(responese.content))
                 index = 0
@@ -48,11 +49,25 @@ async def on_message(message):
                     img.close()
 
                     # 이미지 전송
+                    # TODO: 이미지 전송 -> 임베드의 썸네일로 설정 후 전송으로 로직 변경
+
+                    # gif image open
+                    giffile = discord.File(filepath, filename="image.gif")
+
+                    # gif embed
+                    embed = discord.Embed(title="", description="")
+                    embed.set_author(name=message.author.display_name, icon_url=message.author.display_avatar.url)
+                    embed.set_image(url="attachment://image.gif")
+
                     try :
-                        await message.reply(file=discord.File(filepath))
+                        channel = message.channel
+                        await channel.send(embed=embed, file=giffile)
+                        await converting.delete()
+                        await message.delete()
                         os.remove(filepath)
                     except :
                         await message.reply(f'이미지 용량이 너무 커 변환에 실패했습니다!')
+                        await converting.delete()
                         os.remove(filepath)
 
     # 커맨드 활성화
@@ -113,7 +128,5 @@ async def badapple(ctx) :
         await asyncio.sleep(0.1)
         await msg.delete()
         msg = await ctx.send(badapple_scene)
-
-
 
 bot.run(TOKEN)
